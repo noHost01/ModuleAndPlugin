@@ -1,11 +1,8 @@
-// Test.Build.cs
-
 using UnrealBuildTool;
 
-public class Test : ModuleRules
+public class Temporary : ModuleRules
 {
-    // Test 모듈에서 사용할 Unreal 기본 모듈 의존성을 등록합니다.
-    public Test(ReadOnlyTargetRules Target) : base(Target)
+    public Temporary(ReadOnlyTargetRules Target) : base(Target)
     {
         PublicDependencyModuleNames.AddRange(new string[]
         {

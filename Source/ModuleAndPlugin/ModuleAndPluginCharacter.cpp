@@ -1,8 +1,11 @@
+// ModuleAndPluginCharacter.cpp
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "ModuleAndPluginCharacter.h"
 
 #include "Test/TestActor.h"
+#include "CharacterData.h"
+#include "Engine/Engine.h"
 
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
@@ -135,9 +138,30 @@ void AModuleAndPluginCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// Test 모듈의 Actor를 생성해 모듈 간 참조가 정상적으로 동작하는지 확인합니다.
 	GetWorld()->SpawnActor<ATestActor>(
 		ATestActor::StaticClass(),
 		GetActorLocation() + FVector(200.0f, 0.0f, 100.0f),
 		GetActorRotation()
 	);
+
+	// Temporary 플러그인 모듈의 데이터 클래스를 생성하고 값을 화면에 출력합니다.
+	UCharacterData* CharacterData = NewObject<UCharacterData>(this);
+
+	if (GEngine && CharacterData)
+	{
+		FString Message = FString::Printf(
+			TEXT("Name: %s / Health: %d / MoveSpeed: %.1f"),
+			*CharacterData->CharacterName,
+			CharacterData->Health,
+			CharacterData->MoveSpeed
+		);
+
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			5.0f,
+			FColor::Cyan,
+			Message
+		);
+	}
 }
